@@ -1,4 +1,6 @@
-function criaCalculadora() {
+// FACTORY FUNCTION \\
+
+/*function criaCalculadora() {
     return {
         display: document.querySelector('.display'),
         btnClear: document.querySelector('.btn-clear'),
@@ -71,4 +73,79 @@ function criaCalculadora() {
 };
 
 const calc = criaCalculadora();
-calc.inicia();
+calc.inicia();*/
+
+//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= CONSTRUCTOR FUNCTION =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\\
+
+function Calculadora(display, btnClear) {
+    this.display = display;
+    this.btnClear = btnClear;
+    display.setAttribute("disabled", "disabled");
+
+    this.inicia = function () {
+        btnClick();
+        pressEnter();
+    };
+
+    const pressEnter = function () {
+        document.addEventListener('keyup', e => {
+            if (e.key === 'Enter') {
+                this.result();
+            }
+        })
+    };
+
+    const btnClick = function () {
+        document.addEventListener('click', (e) => {
+            const el = e.target;
+
+            if (el.classList.contains('btn-num')) {
+                btnParaDisplay(el.innerText);
+            }
+
+            if (el.classList.contains('btn-clear')) {
+                clearDisplay();
+            }
+
+            if (el.classList.contains('btn-del')) {
+                delNum();
+            }
+
+            if (el.classList.contains('btn-eq')) {
+                result();
+            }
+        });
+    };
+
+    const result = function() {
+        let conta = display.value;
+        
+        try {
+            conta = eval(conta);
+
+            if(!conta){
+                alert('Conta Inválida!');
+                return;
+            }
+
+            display.value = conta;
+        } catch (e) {
+            alert('Conta Inválida!');
+            return;
+        }
+    };
+
+    const btnParaDisplay = function (valor) {
+        display.value += valor;
+    };
+
+    const clearDisplay = function () {
+        display.value = '';
+    };
+    const delNum= function () {
+        display.value = display.value.slice(0, -1);
+    }
+}
+
+let calc = new Calculadora(document.querySelector('.display'), document.querySelector('.btn-clear'));
+calc.inicia(); 

@@ -147,5 +147,5 @@ function Calculadora(display, btnClear) {
     }
 }
 
-let calc = new Calculadora(document.querySelector('.display'), document.querySelector('.btn-clear'));
+const calc = new Calculadora(document.querySelector('.display'), document.querySelector('.btn-clear'));
 calc.inicia(); 
